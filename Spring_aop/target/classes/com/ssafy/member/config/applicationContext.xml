@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 결과값 출력 저장 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/ssafyweb?serverTimezone=UTC&amp;useUniCode=yes&amp;characterEncoding=UTF-8"/>
+		<property name="username" value="ssafy"/>
+		<property name="password" value="ssafy"/>
+	</bean>
+	
+	<!-- DBUtil -->
+	<bean id="dbUtil" class="com.ssafy.util.DBUtil"/>
+	
+	<!-- memberDao -->
+	<bean id="memberDao" class="com.ssafy.member.model.dao.MemberDaoImpl">
+		<constructor-arg ref="dataSource"></constructor-arg>
+		<constructor-arg ref="dbUtil"></constructor-arg>
+	</bean>
+	
+	<!-- memberService -->
+	<bean id="memberService" class="com.ssafy.member.model.service.MemberServiceImpl">
+		<constructor-arg ref="memberDao"></constructor-arg>
+	</bean>
+	
+	<!-- memberController -->
+	<bean id = "memberController" class="com.ssafy.member.controller.MemberController">
+		<constructor-arg ref="memberService"></constructor-arg>
+	</bean>
+	
+</beans>
